@@ -108,7 +108,7 @@ def bureau_sg(request):
             sg.service_traitement = form.cleaned_data['service_traitement'] 
             sg.save()
             messages.add_message(request, messages.SUCCESS, (f"Informations du courrier enregistrées avec succès."))
-            return redirect('senat:bureau_sg')
+            # return redirect('senat:bureau_sg')
 
     return render(request,'sg.html', {"courrier": courrier, "form": form})
     
