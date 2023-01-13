@@ -262,7 +262,7 @@ a[data-toggle="collapse"] {
         <h2 class="mb-4 mt-4">ENREGISTREMENT DU COURRIER</h2>
         {% include '_partials/messages.html' %}
 
-        {% comment %} {% if courrier %} {% endcomment %}
+        {% if courrier %} 
     
             {% for courriers in courrier %}
                 <div class="form-group">
@@ -298,6 +298,17 @@ a[data-toggle="collapse"] {
                     <input type="text" class="form-control" value=" année: {% if courriers.annee %} {{ courriers.annee | upper }} {% else %} / {% endif %} "  disabled="disabled">
                 </div>
 
+                {% if courriers.mention and courriers.service_traitement %}
+                    <div class="form-group">
+                        {% comment %} <label for="objet">Objet</label> {% endcomment %}
+                        <input type="text" class="form-control" value=" service de traitement: {{ courriers.service_traitement | upper }} "  disabled="disabled">
+                    </div>
+                    <div class="form-group">
+                        {% comment %} <label for="objet">Objet</label> {% endcomment %}
+                        <input type="text" class="form-control" value=" mention: {{ courriers.mention | upper }} "  disabled="disabled">
+                    </div>
+                {% else %}
+
                 {% comment %} <div class="form-group"> {% endcomment %}
                     <form method="POST" action="">
                         {% csrf_token %}
@@ -332,12 +343,12 @@ a[data-toggle="collapse"] {
                         <button type="submit" id="" class="btn btn-primary mt-4"> Enregistrer!</button>
                     </form> 
                 {% comment %} </div> {% endcomment %}
-            {% empty %}
-                <p> Courrier introuvable... </p>
+                {% endif %}
+            
             {% endfor %}
-        {% comment %} {% else %}
+        {% else %}
             <p> Courrier introuvable... </p>
-        {% endif %} {% endcomment %}
+        {% endif %}
 
         {% comment %} <div class="form-group">
             <form method="POST">
