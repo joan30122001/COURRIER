@@ -9,11 +9,10 @@ from .models import Courrier
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-# from urlparams.redirect import param_redirect
-from django.template.response import TemplateResponse
 import json
 from django.db.models import Q # new
 from django.views.generic import ListView
+from django.urls import reverse
 
 
 
@@ -84,6 +83,34 @@ def chef_arrive(request):
 
 
 def bureau_sg(request):
+    type_elt = request.GET.get('types')
+    code = request.GET.get('code')
+
+    courrier = Courrier.objects.filter(
+        Q(code__icontains=code) and Q(types__icontains=type_elt)
+    )
+    # courriers = Courrier.objects.raw('select * from courrier where code="'+code+'" and types="'+type_elt+'"') 
+    # if len(courriers) > 0:
+    #     courrier = courriers.first()
+
+    # sg = get_object_or_404(Courrier)
+    # form = MentionForm(instance=sg)
+    
+    
+    sg = get_object_or_404(Courrier, code=code, types=type_elt)
+    form = MentionForm(instance=sg)
+
+    # courrierss = MentionForm(request.POST or None, instance=code)
+    if request.method == 'POST':
+        form = MentionForm(request.POST or None, instance=sg)
+        if form.is_valid():
+            sg.mention = form.cleaned_data['mention']                
+            sg.service_traitement = form.cleaned_data['service_traitement'] 
+            sg.save()
+            messages.add_message(request, messages.SUCCESS, (f"Informations du courrier enregistrées avec succès."))
+            return redirect('senat:bureau_sg')
+
+    return render(request,'sg.html', {"courrier": courrier, "form": form})
     
     # # code = request.session['code']
     # sg = get_object_or_404(Courrier)
@@ -117,7 +144,7 @@ def bureau_sg(request):
     # context = {
     #     'code': code,
     # }
-    return render(request,'sg.html')
+    # return render(request,'sg.html')
 
     # sg = get_object_or_404(Courrier, id=id)
     # if request.method == 'POST':
@@ -133,6 +160,37 @@ def bureau_sg(request):
     #     context={'sg': sg,
 	# 	'error': "Les informations du courrier n'ont pas été complétées."}
     #     return render(request,'sg.html', context)
+
+
+
+# def sg_record(request):
+#     try:
+#         code_unique = request.session['code_courrier']
+#         types_unique = request.session['types_courrier']
+#     except KeyError:
+#         messages.add_message(request, messages.ERROR, (f"Ce courrier n'existe pas..."))
+#         return redirect('senat:search')
+
+#     courrier = get_object_or_404(Courrier, code=code_unique, types=types_unique)
+#     form = MentionForm(instance=courrier)
+
+#     if request.method == 'POST':
+#         form = MentionForm(request.POST or None, instance=courrier)
+#         if form.is_valid():
+#             form.save()
+#             # courrier.region_origine = courrier.dept_origine.region
+#             courrier.save()
+#             messages.add_message(request, messages.SUCCESS, (f"Mention et Service de traitement enregistré avec succès."))
+#             return redirect('senat:search')
+#         else:
+#             messages.add_message(request, messages.ERROR, ('Veuillez vérifier les champs en rouge !!!'))
+#             return render(request, 'sg_record.html', {'form': form})
+
+#     context = {
+#         'form': form,
+#     }
+
+#     return render(request, 'sg_record.html', context)
 
 
 
@@ -181,10 +239,15 @@ def search(request):
     if request.method == 'POST':
         query = request.POST.get('code')
         querys = request.POST.get('types')
-        courrier = Courrier.objects.raw('select * from courrier where code="'+query+'" and types="'+querys+'"') 
+        # courrier = Courrier.objects.raw('select * from courrier where code="'+query+'" and types="'+querys+'"') 
+
+
+        response = redirect('/bureau_sg/' + f'?code={query}&types={querys}')
+        # messages.add_message(request, messages.ERROR, ('Mauvais format de code !!!'))
+        return response
 
         # return redirect('senat:bureau_sg', kwargs={'courrier':courrier})
-        return render(request, 'sg.html', {'courrier':courrier})
+        # return render(request, 'sg.html', {'courrier':courrier})
         # return redirect(f'senat:bureau_sg/?query={query}/?querys={querys}')
         # return redirect('senat:bureau_sg')
     else:
@@ -192,35 +255,3 @@ def search(request):
         return render(request, 'search.html')
 
 
-
-# class SearchResultsList(ListView):
-#     model = Courrier
-#     template_name = "search.html"
-#     context_object_name = "courrier"
-
-#     def search(self):  # new
-#         # if request.method == 'POST':
-#         query = self.request.POST.get('code')
-#         querys = self.request.POST.get('types')
-#         courrier = Courrier.objects.filter(
-#             Q(code__icontains=query) and Q(types__icontains=querys)
-#         )
-#         # courrier = Courrier.objects.raw('select * from courrier where code="'+query+'" and types="'+querys+'"') 
-#         return courrier
-#         # else:
-#         #     # messages.add_message(request, messages.ERROR, ('Mauvais format de code !!!'))
-#         #     return render(request, 'search.html')
-
-
-# class SearchResultsList(ListView):
-#     model = Courrier
-#     context_object_name = "courrier"
-#     template_name = "search.html"
-
-#     def search(self):
-#         # query = self.request.GET.get("q")
-#         query = self.request.POST.get("code")
-#         querys = self.request.POST.get("types")
-
-#         return Courrier.objects.raw('select * from courrier where code="'+query+'" and types="'+querys+'"'
-#         )

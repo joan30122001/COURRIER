@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import *
 # from .views import SearchResultsView
 # from .views import SearchResultsList
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     # path("search/", SearchResultsList.as_view(), name="search"),
     # path("search/", SearchResultsView.as_view(), name="search_results"),
+    # path('sg_record/', sg_record, name='sg_record'),
 ]

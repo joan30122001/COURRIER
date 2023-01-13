@@ -267,7 +267,7 @@ a[data-toggle="collapse"] {
             {% for courriers in courrier %}
                 <div class="form-group">
                     {% comment %} <label for="recepteur">Recepteur</label> {% endcomment %}
-                    <input type="text" class="form-control" value=" transmetteur: {{ courriers.transmetteur | upper }}  {{courrier}}"  disabled="disabled">
+                    <input type="text" class="form-control" value=" transmetteur: {{ courriers.transmetteur | upper }}"  disabled="disabled">
                 </div>
                 <div class="form-group">
                     {% comment %} <label for="objet">Objet</label> {% endcomment %}
@@ -301,7 +301,7 @@ a[data-toggle="collapse"] {
                 {% comment %} <div class="form-group"> {% endcomment %}
                     <form method="POST" action="">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {% comment %} {{ form|crispy }} {% endcomment %}
                         <label for="sercice">Service de traitement</label>
                         <select name="service_traitement" class="form-control">
                             <option>Direction de la coordination des services ratachés et des relations internationales</option>
@@ -330,7 +330,7 @@ a[data-toggle="collapse"] {
                             <option>AUTRES</option>
                         </select>
                         <button type="submit" id="" class="btn btn-primary mt-4"> Enregistrer!</button>
-                    </form>
+                    </form> 
                 {% comment %} </div> {% endcomment %}
             {% empty %}
                 <p> Courrier introuvable... </p>
