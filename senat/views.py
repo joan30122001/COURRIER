@@ -111,87 +111,6 @@ def bureau_sg(request):
             # return redirect('senat:bureau_sg')
 
     return render(request,'sg.html', {"courrier": courrier, "form": form})
-    
-    # # code = request.session['code']
-    # sg = get_object_or_404(Courrier)
-    # form = MentionForm(instance=sg)
-
-    # if request.method == 'POST':
-    #     form = MentionForm(request.POST or None, instance=sg)
-    #     if form.is_valid():
-    #         # code_unique = generate_unique_code(str(form.cleaned_data['date_nais']))
-
-    #         # etudiant.num_ordre = code_unique
-
-    #         # sg.mention = form.cleaned_data['mention']                
-    #         # sg.service_traitement = form.cleaned_data['service_traitement']  
-        
-    #         form.save()
-    #         # request.session['code_logement'] = code_unique
-
-    #         messages.add_message(request, messages.SUCCESS, (f"Informations du courrier enregistrées avec succès."))
-    #         # return redirect('logement:filiation', request.session['ecole_code'] )
-    #         return redirect('senat:chef_depart')
-    #     else:
-    #         messages.add_message(request, messages.ERROR, ('Veuillez vérifier les champs en rouge !!!'))
-    #         return render(request, 'sg.html', {'form': form})
-
-    # context = {
-    #     'form': form,
-    # }
-    # return render(request,'sg.html', context)
-    # code = DossierUniv.objects.get(code=code)
-    # context = {
-    #     'code': code,
-    # }
-    # return render(request,'sg.html')
-
-    # sg = get_object_or_404(Courrier, id=id)
-    # if request.method == 'POST':
-    #     if request.POST.get('service_traitement') and request.POST.get('mention'):
-    #         Courrier.objects.filter(id = id).update(
-    #             service_traitement= request.POST.get('service_traitement'), 
-    #             mention= request.POST.get('mention'))
-    #         messages.success(request, "Les informations du courrier ont été complétées.")
-
-    #     context={'sg': sg}
-    #     return render(request, 'sg.html')  
-    # else:
-    #     context={'sg': sg,
-	# 	'error': "Les informations du courrier n'ont pas été complétées."}
-    #     return render(request,'sg.html', context)
-
-
-
-# def sg_record(request):
-#     try:
-#         code_unique = request.session['code_courrier']
-#         types_unique = request.session['types_courrier']
-#     except KeyError:
-#         messages.add_message(request, messages.ERROR, (f"Ce courrier n'existe pas..."))
-#         return redirect('senat:search')
-
-#     courrier = get_object_or_404(Courrier, code=code_unique, types=types_unique)
-#     form = MentionForm(instance=courrier)
-
-#     if request.method == 'POST':
-#         form = MentionForm(request.POST or None, instance=courrier)
-#         if form.is_valid():
-#             form.save()
-#             # courrier.region_origine = courrier.dept_origine.region
-#             courrier.save()
-#             messages.add_message(request, messages.SUCCESS, (f"Mention et Service de traitement enregistré avec succès."))
-#             return redirect('senat:search')
-#         else:
-#             messages.add_message(request, messages.ERROR, ('Veuillez vérifier les champs en rouge !!!'))
-#             return render(request, 'sg_record.html', {'form': form})
-
-#     context = {
-#         'form': form,
-#     }
-
-#     return render(request, 'sg_record.html', context)
-
 
 
 
@@ -255,3 +174,13 @@ def search(request):
         return render(request, 'search.html')
 
 
+
+def courrier_attente(request):
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU")
+    return render(request, 'courrier_attente.html', {"courrier": courrier})
+
+
+
+def courrier_attente_detail(request, id):
+    obj = get_object_or_404(Courrier, pk=id)
+    return render(request, 'courrier_detail.html', {"obj": obj})

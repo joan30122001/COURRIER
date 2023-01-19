@@ -218,6 +218,9 @@ a[data-toggle="collapse"] {
                     <a href="{% url 'account:index' %}">Deconnexion</a>
                 </li>
                 <li>
+                    <a href="{% url 'senat:chef_service' %}">Enregistrer un Courrier</a>
+                </li>
+                <li>
                     <a href="{% url 'senat:courrier_attente' %}">Courrier en attente</a>
                 </li>
                 {% comment %} <li>
@@ -231,7 +234,7 @@ a[data-toggle="collapse"] {
         </div>
     </nav>
     <!-- Page Content  -->
-    <div id="content" class="p-4 p-md-5 col-md-6">
+    <div id="content" class="p-4 p-md-5 ">
         {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light"> {% endcomment %}
             <div class="container-fluid">
                 {% comment %} <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -259,49 +262,38 @@ a[data-toggle="collapse"] {
                 </div> {% endcomment %}
             </div>
         {% comment %} </nav> {% endcomment %}
-        <h2 class="mb-4 mt-4">ENREGISTREMENT DU COURRIER</h2>
-        {% include '_partials/messages.html' %}
-        <div class="form-group">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                {% comment %} <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Emetteur...">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Destinataire..." >
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Code...">
-                    </div>
-                    <div class="col">
-                        <input type="date" class="form-control" placeholder="Date..." >
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Objet...">
-                    </div>
-                </div>  {% endcomment %}
-            <button type="submit" id="" class="btn btn-primary mt-4"> Enregistrer!</button>
-            </form>
-        </div>
+        <h2 class="mb-4 mt-4">DETAIL DU COURRIER</h2>
+
+        
+            <div class="container">
+                
+                    <p > Transmetteur: {{ obj.transmetteur }} </p>
+                    <p> Recepteur: {{ obj.recepteur }} </p>
+                    <p> Types: {{ obj.types }} </p>
+                    <p> Structure: {{ obj.structure }} </p>
+                    <p> Code: {{ obj.code }} </p>
+                    <p> Annee: {{ obj.annee }} </p>
+                    <p> Date: {{ obj.date }} </p>
+                    <p> Objet: {{ obj.objet }} </p>
+                    <p> Service_traitement: {{ obj.service_traitement }} </p>
+                    <p> Mention: {{ obj.mention }} </p>
+                
+            </div>
+     
+
+
     </div>
-    <div class="" style="margin-top: 15em;">
+    {% comment %} <div class="" style="margin-top: 15em;">
         <div class="card text-white" style="margin-right:3rem; border-color: #2a5555">
             <div class="card-header" style="background-color: #2a5555; font-weight: bold; font-size: 20px">NOTICE</div>
             <div class="card-body">
-                {% comment %} <h5 class="card-title">Success card title</h5> {% endcomment %}
                 <p class="card-text"style="color: #111; font-size: 15px">Une fois sur cette page vous avez la possibilité de vous <b>déconnecter</b>, <b>d'enregistrer un courrier</b> en 
                     renseignant <b>le transmetteur, le recepteur, le code, la date, l'objet du courrier</b> qui sont tous des champs <b>obligatoires</b> et en cliquant
                     sur <b>enregistrer</b>, vous allez recevoir un message de succès dans le cas ou les champs sont bien remplis et votre mission est terminé.
                 </p>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 </div>
 <script>
 (function ($) {
