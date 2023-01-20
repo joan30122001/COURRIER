@@ -16,6 +16,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('courrier_attente/', views.courrier_attente, name='courrier_attente'),
     path('<int:id>', views.courrier_attente_detail, name='courrier_attente_detail'),
+    # path('traited/', views.traited, name='traited'),
     # path("search/", SearchResultsList.as_view(), name="search"),
     # path("search/", SearchResultsView.as_view(), name="search_results"),
     # path('sg_record/', sg_record, name='sg_record'),

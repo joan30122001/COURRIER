@@ -83,6 +83,8 @@ class Courrier(models.Model):
     service_traitement = models.CharField(max_length=150, choices=SERVICE_TRAITEMENT)
     mention = models.CharField(max_length=100, choices=MENTION, null=True, blank=True)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return f'{self.transmetteur}'
 

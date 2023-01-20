@@ -21,6 +21,9 @@ from django.urls import reverse
 
 def chef_service(request):
 
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
     form = RegistrationForm(request.POST or None)
     chef_service = Courrier()
 
@@ -67,6 +70,7 @@ def chef_service(request):
 
     context = {
         'form': form,
+        'count_courrier': count_courrier,
     }
     return render(request,'chef_service.html', context)
 
@@ -176,11 +180,26 @@ def search(request):
 
 
 def courrier_attente(request):
-    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU")
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    # if request.method == 'POST':
+    #     request.is_active = False
+    #     request.save()
     return render(request, 'courrier_attente.html', {"courrier": courrier})
 
 
 
 def courrier_attente_detail(request, id):
     obj = get_object_or_404(Courrier, pk=id)
-    return render(request, 'courrier_detail.html', {"obj": obj})
+
+    #compter le nombre de courrier
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
+    return render(request, 'courrier_detail.html', {"obj": obj, "count_courrier": count_courrier})
+
+
+
+# def traited(request):
+#     is_active = False
+#     request.object.save()
+#     return redirect('senat:courrier_attente')
