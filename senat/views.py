@@ -90,8 +90,11 @@ def bureau_sg(request):
     type_elt = request.GET.get('types')
     code = request.GET.get('code')
 
+    # courrier = Courrier.objects.filter(
+    #     Q(code__icontains=code) and Q(types__icontains=type_elt)
+    # )
     courrier = Courrier.objects.filter(
-        Q(code__icontains=code) and Q(types__icontains=type_elt)
+        code=code, types=type_elt
     )
     # courriers = Courrier.objects.raw('select * from courrier where code="'+code+'" and types="'+type_elt+'"') 
     # if len(courriers) > 0:
