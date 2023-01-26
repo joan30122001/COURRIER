@@ -194,7 +194,7 @@ a[data-toggle="collapse"] {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-.btn.btn-primary {
+/*.btn.btn-primary {
     background: #2a5555;
     border-color: #2a5555;
 }
@@ -202,7 +202,7 @@ a[data-toggle="collapse"] {
 .btn.btn-primary:focus {
     background: #2a5555 !important;
     border-color: #2a5555 !important;
-}
+}*/
 </style>
 
 </head>
@@ -281,9 +281,9 @@ a[data-toggle="collapse"] {
                                         Code: {{ courriers.code }}
                                     <p>
                                     <a style="color: black" href=" {% url 'senat:courrier_attente_detail' courriers.id %} ">
-                                        <button type="button" class="btn btn-primary">Détail</button>
+                                        <button type="button" class="btn btn-primary" style="background-color: green; border: none">Détail</button>
                                     </a>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Terminer</button>
+                                    <button type="button" class="btn btn-primary" style="background-color: red; border: none" data-toggle="modal" data-target="#exampleModal">Terminer</button>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                           <div class="modal-content">
@@ -297,10 +297,10 @@ a[data-toggle="collapse"] {
                                               En cliquant sur OUI vous confirmez avoir traité le courrier
                                             </div>
                                             <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                                              <button type="button" style="background-color: red; border: none" class="btn btn-secondary" data-dismiss="modal">NON</button>
                                               <a style="color: black" href="  ">
                                                 {% comment %} <form method="post"> {% endcomment %}
-                                                <button type="button" class="btn btn-primary">OUI</button>
+                                                <button type="button" style="background-color: green; border: none" class="btn btn-primary">OUI</button>
                                               {% comment %} </form> {% endcomment %}
                                               </a>
                                             </div>
