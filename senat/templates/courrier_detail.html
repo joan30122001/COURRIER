@@ -206,6 +206,33 @@ a[data-toggle="collapse"] {
     background: #2a5555 !important;
     border-color: #2a5555 !important;
 }
+
+.head{
+    margin-top: 50px;
+}
+.head1{
+    text-align: center;
+    line-height: 10px;
+}
+.head2{
+    width: 550px;
+}
+.head3{
+    text-align: center;
+    line-height: 10px;
+}
+.objet{
+    text-align: center;
+}
+.objet h6{
+    text-decoration: underline;
+}
+.objet1{
+    width: 300px;
+}
+.objet2{
+    width: 300px;
+}
 </style>
 
 </head>
@@ -228,6 +255,9 @@ a[data-toggle="collapse"] {
                 </li>
                 <li>
                     <a href="{% url 'senat:search_chef' %}">Recherche d'un Courrier </a>
+                </li>
+                <li>
+                    <a href="{% url 'senat:list_courrier' %}">Imprimer un Courrier </a>
                 </li>
                 {% comment %} <li>
                     <a href="#">Portfolio</a>
@@ -273,7 +303,7 @@ a[data-toggle="collapse"] {
         
             <div class="container">
                 
-                    <p > Transmetteur: {{ obj.transmetteur }} </p>
+                    {% comment %} <p > Transmetteur: {{ obj.transmetteur }} </p>
                     <p> Recepteur: {{ obj.recepteur }} </p>
                     <p> Types: {{ obj.types }} </p>
                     <p> Structure: {{ obj.structure }} </p>
@@ -282,7 +312,44 @@ a[data-toggle="collapse"] {
                     <p> Date: {{ obj.date }} </p>
                     <p> Objet: {{ obj.objet }} </p>
                     <p> Service_traitement: {{ obj.service_traitement }} </p>
-                    <p> Mention: {{ obj.mention }} </p>
+                    <p> Mention: {{ obj.mention }} </p> {% endcomment %}
+                    <table class="head">
+                        <tr>
+                            <td class="head1">
+                                <p>REPUBLIQUE DU CAMEROUN</p>
+                                <p>Paix-Travail-Patrie</p>
+                                <p>--------</p>
+                                <p>SENAT</p>
+                                <p>--------</p>
+                            </td>
+                            <td class="head2">
+            
+                            </td>
+                            <td class="head3">
+                                <p>REPUBLIC OF CAMEROON</p>
+                                <p>Peace-Work-Fatherland</p>
+                                <p>--------</p>
+                                <p>SENATE</p>
+                                <p>--------</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br><br><br>
+                    <table class="obj">
+                        <tr>
+                            <td class="objet1">
+                                
+                            </td>
+                            <td class="objet">
+                                <h6>{{ obj.types }} N 23 / {{ obj.code }} / AB / SEN DU {{ obj.date }}</h6><br>
+                                <p>{{ obj.objet }}.
+                                </p>
+                            </td>
+                            <td class="objet2">
+                                
+                            </td>
+                        </tr>
+                    </table>
                 
             </div>
      

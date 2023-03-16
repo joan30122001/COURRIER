@@ -206,6 +206,33 @@ a[data-toggle="collapse"] {
     background: #2a5555 !important;
     border-color: #2a5555 !important;
 }
+
+.head{
+    margin-top: 50px;
+}
+.head1{
+    text-align: center;
+    line-height: 10px;
+}
+.head2{
+    width: 550px;
+}
+.head3{
+    text-align: center;
+    line-height: 10px;
+}
+.objet{
+    text-align: center;
+}
+.objet h6{
+    text-decoration: underline;
+}
+.objet1{
+    width: 300px;
+}
+.objet2{
+    width: 300px;
+}
 </style>
 
 </head>
@@ -228,6 +255,9 @@ a[data-toggle="collapse"] {
                 </li>
                 <li>
                     <a href="{% url 'senat:search_chef' %}">Recherche d'un Courrier </a>
+                </li>
+                <li>
+                    <a href="{% url 'senat:list_courrier' %}">Imprimer un Courrier </a>
                 </li>
                 {% comment %} <li>
                     <a href="#">Portfolio</a>
@@ -274,7 +304,7 @@ a[data-toggle="collapse"] {
         {% for courriers in courrier %}
             <div class="container"> 
                 
-                    <p > Transmetteur: {{ courriers.transmetteur }} </p>
+                    {% comment %} <p > Transmetteur: {{ courriers.transmetteur }} </p>
                     <p> Recepteur: {{ courriers.recepteur }} </p>
                     <p> Types: {{ courriers.types }} </p>
                     <p> Structure: {{ courriers.structure }} </p>
@@ -283,13 +313,51 @@ a[data-toggle="collapse"] {
                     <p> Date: {{ courriers.date }} </p>
                     <p> Objet: {{ courriers.objet }} </p>
                     <p> Service_traitement: {{ courriers.service_traitement }} </p>
-                    <p> Mention: {{ courriers.mention }} </p>
+                    <p> Mention: {{ courriers.mention }} </p> {% endcomment %}
+
+                    <table class="head">
+                        <tr>
+                            <td class="head1">
+                                <p>REPUBLIQUE DU CAMEROUN</p>
+                                <p>Paix-Travail-Patrie</p>
+                                <p>--------</p>
+                                <p>SENAT</p>
+                                <p>--------</p>
+                            </td>
+                            <td class="head2">
+            
+                            </td>
+                            <td class="head3">
+                                <p>REPUBLIC OF CAMEROON</p>
+                                <p>Peace-Work-Fatherland</p>
+                                <p>--------</p>
+                                <p>SENATE</p>
+                                <p>--------</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br><br><br>
+                    <table class="obj">
+                        <tr>
+                            <td class="objet1">
+                                
+                            </td>
+                            <td class="objet">
+                                <h6>{{ courriers.types }} N 23 / {{ courriers.code }} / AB / SEN DU {{ courriers.date }}</h6><br>
+                                <p>{{ courriers.objet }}.
+                                </p>
+                            </td>
+                            <td class="objet2">
+                                
+                            </td>
+                        </tr>
+                    </table>
                 
             </div>
         {% endfor %}
         {% endif %}
      
-
+        <hr>
 
     </div>
     {% comment %} <div class="" style="margin-top: 15em;">

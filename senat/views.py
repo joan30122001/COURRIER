@@ -13,7 +13,11 @@ import json
 from django.db.models import Q # new
 from django.views.generic import ListView
 from django.urls import reverse
-
+import pdfkit
+from django.http import HttpResponse
+from django.template import loader
+import io
+from .utils import render_to_pdf
 
 
 
@@ -242,6 +246,26 @@ def result_chef(request):
     )or Courrier.objects.filter(
         objet=objet
     )
-
-
     return render(request,'result_chef.html', {"courrier": courrier, "count_courrier": count_courrier})
+
+
+
+def courrier_pdf(request, pk):
+    user_courrier = Courrier.objects.get(pk=pk)
+
+    context = {
+        "user_courrier": user_courrier,
+    }
+    
+    pdf = render_to_pdf('courrier_pdf.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+
+def list_courrier(request):
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
+    courriers = Courrier.objects.all()
+    return render(request, 'liste_courrier.html', {'courriers': courriers, 'count_courrier': count_courrier})
+
