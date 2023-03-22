@@ -268,8 +268,8 @@ a[data-toggle="collapse"] {
                 </div> {% endcomment %}
             </div>
         {% comment %} </nav> {% endcomment %}
-        <h2 class="mb-4 mt-4">LISTE DE COURRIERS EN ATTENTE</h2>
-
+        <h2 class="mb-4 mt-4">IMPRIMER UN COURRIER</h2>
+    <br><br>
         
             
         
@@ -288,6 +288,28 @@ a[data-toggle="collapse"] {
                 <hr>
                 {% endfor %}
             </div>
+
+            {% comment %} {% if courriers_list.has_other_pages %} {% endcomment %}
+                <nav aria-label="Page navigation conatiner">
+                    <ul class="pagination pagination-lg" style="justify-content: center">
+                        {% for page in paginator.page_range %}
+                            {% if page == courriers.number %}
+                                <li class="page-item active" arria-current="page">
+                                    <span class="page-link">{{page}}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{page}}" class="page-link">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+                </div>
+            {% comment %} {% endif %} {% endcomment %}
+            {% comment %} {% block content %}
+                {% include "pagination.html" with page=courriers_list %}
+            {% endblock %} {% endcomment %}
      
 
 

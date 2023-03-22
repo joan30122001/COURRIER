@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'senat',
     'crispy_forms',
+    'import_export',
 ]
 
 MIDDLEWARE = [

@@ -8,3 +8,4 @@ tablib==3.3.0
 tzdata==2022.7
 pdfkit==1.0.0
 xhtml2pdf==0.2.9
+django_import_export==3.1.0

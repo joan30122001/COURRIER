@@ -18,7 +18,7 @@ from django.http import HttpResponse
 from django.template import loader
 import io
 from .utils import render_to_pdf
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 
@@ -267,5 +267,20 @@ def list_courrier(request):
     count_courrier = courrier.count()
 
     courriers = Courrier.objects.all()
-    return render(request, 'liste_courrier.html', {'courriers': courriers, 'count_courrier': count_courrier})
+    # courriers = Courrier.objects.filter(is_active=True).order_by('-created_on')
+
+    page = request.GET.get('page')
+    num_of_items = 3
+    paginator = Paginator(courriers, num_of_items)
+
+    try:
+        courriers = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        courriers = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        courriers = paginator.page(page)
+
+    return render(request, 'liste_courrier.html', {'courriers': courriers, 'count_courrier': count_courrier, 'paginator': paginator})
 

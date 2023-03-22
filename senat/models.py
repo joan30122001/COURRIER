@@ -94,6 +94,7 @@ class Courrier(models.Model):
     mention = models.CharField(max_length=100, choices=MENTION, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.transmetteur}'
