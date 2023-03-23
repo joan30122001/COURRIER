@@ -21,19 +21,19 @@
 
 
 <style>
-body {
+/*body {
     font-family: "Poppins", Arial, sans-serif;
     font-size: 14px;
     line-height: 1.8;
     font-weight: normal;
     background: #fafafa;
-    /*color: gray;*/
+  
 }
 a {
     -webkit-transition: 0.3s all ease;
     -o-transition: 0.3s all ease;
     transition: 0.3s all ease;
-    /*color: #2a5555;*/
+  
     color: #fff;
 }
 a:hover,
@@ -120,7 +120,7 @@ h5,
     min-width: 300px;
     max-width: 300px;
     background: #2a5555;
-   /* background: #1d1919;*/
+ 
     color: #fff;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -157,7 +157,7 @@ h5,
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 #sidebar ul li a:hover {
-    /*color: #2a5555;*/
+   
     color: #fff;
 }
 #sidebar ul li.active > a {
@@ -197,7 +197,7 @@ a[data-toggle="collapse"] {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-/*.btn.btn-primary {
+.btn.btn-primary {
     background: #2a5555;
     border-color: #2a5555;
 }
@@ -206,15 +206,182 @@ a[data-toggle="collapse"] {
     background: #2a5555 !important;
     border-color: #2a5555 !important;
 }*/
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#sidebar {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2a5555; 
+    overflow-x: hidden;
+    transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    /*background-color: #2a5555;*/
+    color: #fff;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    /*border-bottom: 1px solid #47748b;*/
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 1.1em;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+}
+
+#sidebar ul li a:hover {
+    text-decoration: none;
+    background-color: #0B7474;
+}
+
+#sidebarCollapse {
+    display: none;
+}
+
+#content {
+    width: 100%;
+    padding-left: 350px;
+    transition: all 0.3s;
+}
 </style>
 
 </head>
 <body>
-<div class="wrapper d-flex align-items-stretch">
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <h5>Cybex Courrier</h5>
+            </div>
+            {% comment %} <a href="#" class="img logo rounded-circle mb-3" style="background-image: url(http://frontendfreecode.com/img/user.jpg);"></a> {% endcomment %}
+            <div class="text-center">
+                <img src="{% static 'landing/assets/img/about.jpg' %}" class="img logo rounded-circle mb-3 mt-3" style="width: 100px; height: 100px;">
+            </div>
+            <p class="text-center" style="color: #fff"><span style="font-size: 20px; color: #fff">{{ user.username | upper }}</span> <br> Chef du Service Courrier</p>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="{% url 'account:index' %}">
+                        <i class="ri-logout-circle-line"></i>
+                        Deconnexion
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'senat:chef_service' %}">
+                        <i class="fas fa-user mr-2"></i>
+                        Enregistrer un Courrier
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'senat:courrier_attente' %}">
+                        <i class="fas fa-user mr-2"></i>
+                        Courrier en attente <span style="font-size:10px; border: 1px solid red; padding-left: 3px; padding-right: 3px; border-radius: %; background-color: red">{{ count_courrier }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'senat:search_chef' %}">
+                        <i class="fas fa-tasks mr-2"></i>
+                        Recherche d'un Courrier
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content" >
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h2 class="mb-4 mt-4">IMPRIMER UN COURRIER</h2>
+                <div class="card card-body">
+                    <form method="get">
+                        {{ myFilter.form.as_p }}
+                        <button class="btn btn-primary" type="submit">Filtrer</button>
+                    </form>
+                </div>
+                <br><br>
+                <div class="container">
+                    {% for courrier in courriers %}
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 style="color:Navy;">{{courrier.types}} N°{{courrier.code}}</h5><p style="font-size: 16px">{{courrier.objet}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="df/{{courrier.pk}}" target="_blank" class="btn btn-warning">Imprimer PDF</a>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+                {% comment %} {% if courriers_list.has_other_pages %} {% endcomment %}
+                <nav aria-label="Page navigation conatiner" >
+                    <ul class="pagination pagination" style="justify-content: center;">
+                        {% for page in paginator.page_range %}
+                            {% if page == courriers.number %}
+                                <li class="page-item active" arria-current="page">
+                                    <span class="page-link">{{page}}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a href="?page={{page}}" class="page-link">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>        
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <div class="wrapper d-flex align-items-stretch">
     <nav id="sidebar">
         <div class="p-4 pt-5">
             <a href="#" class="img logo rounded-circle mb-3" style="background-image: url(http://frontendfreecode.com/img/user.jpg);"></a>
-            {% comment %} <p class="text-center">{{ user.username }}</p> {% endcomment %}
+            
             <p class="text-center"><span style="font-size: 20px">{{ user.username | upper }}</span> <br> Chef du Service Courrier</p>
             <ul class="list-unstyled components mb-5 mt-5">
                 <li>
@@ -229,49 +396,23 @@ a[data-toggle="collapse"] {
                 <li>
                     <a href="{% url 'senat:search_chef' %}">Recherche d'un Courrier </a>
                 </li>
-                {% comment %} <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li> {% endcomment %}
             </ul>
             
         </div>
     </nav>
-    <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 ">
-        {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light"> {% endcomment %}
             <div class="container-fluid">
-                {% comment %} <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                    <i class="fa fa-bars"></i>
-                    <span class="sr-only">Toggle Menu</span>
-                </button> {% endcomment %}
-                {% comment %} <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button> {% endcomment %}
-                {% comment %} <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Portfolio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                    </ul>
-                </div> {% endcomment %}
             </div>
-        {% comment %} </nav> {% endcomment %}
         <h2 class="mb-4 mt-4">IMPRIMER UN COURRIER</h2>
-    <br><br>
+    
         
-            
+    <div class="card card-body">
+        <form method="get">
+            {{ myFilter.form.as_p }}
+            <button class="btn btn-primary" type="submit">Filtrer</button>
+        </form>
+    </div>
+    <br><br>
         
         
         
@@ -289,9 +430,11 @@ a[data-toggle="collapse"] {
                 {% endfor %}
             </div>
 
-            {% comment %} {% if courriers_list.has_other_pages %} {% endcomment %}
-                <nav aria-label="Page navigation conatiner">
-                    <ul class="pagination pagination-lg" style="justify-content: center">
+            
+
+            
+                <nav aria-label="Page navigation conatiner" >
+                    <ul class="pagination pagination" style="justify-content: center;">
                         {% for page in paginator.page_range %}
                             {% if page == courriers.number %}
                                 <li class="page-item active" arria-current="page">
@@ -306,10 +449,6 @@ a[data-toggle="collapse"] {
                     </ul>
                 </nav>
                 </div>
-            {% comment %} {% endif %} {% endcomment %}
-            {% comment %} {% block content %}
-                {% include "pagination.html" with page=courriers_list %}
-            {% endblock %} {% endcomment %}
      
 
 
@@ -330,7 +469,7 @@ a[data-toggle="collapse"] {
         $("#sidebar").toggleClass("active");
     });
 })(jQuery);
-</script>
+</script> {% endcomment %}
 
 </body>
 </html>

@@ -19,6 +19,7 @@ from django.template import loader
 import io
 from .utils import render_to_pdf
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .filters import CourrierFilter
 
 
 
@@ -269,6 +270,7 @@ def list_courrier(request):
     courriers = Courrier.objects.all()
     # courriers = Courrier.objects.filter(is_active=True).order_by('-created_on')
 
+    #pagination
     page = request.GET.get('page')
     num_of_items = 3
     paginator = Paginator(courriers, num_of_items)
@@ -282,5 +284,14 @@ def list_courrier(request):
         page = paginator.num_pages
         courriers = paginator.page(page)
 
-    return render(request, 'liste_courrier.html', {'courriers': courriers, 'count_courrier': count_courrier, 'paginator': paginator})
+    #barre de filtre
+    # gg = courriers.order_set.all()
+    myFilter = CourrierFilter()
+    # courriers = myFilter.qs
+
+    return render(request, 'liste_courrier.html', {'courriers': courriers, 
+                                                   'count_courrier': count_courrier, 
+                                                   'paginator': paginator,
+                                                   'myFilter': myFilter
+                                                   })
 
