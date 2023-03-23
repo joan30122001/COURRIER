@@ -116,8 +116,9 @@ def bureau_sg(request):
     if request.method == 'POST':
         form = MentionForm(request.POST or None, instance=sg)
         if form.is_valid():
+            sg.service_traitement = form.cleaned_data['service_traitement']
             sg.mention = form.cleaned_data['mention']                
-            sg.service_traitement = form.cleaned_data['service_traitement'] 
+            # sg.service_traitement = form.cleaned_data['service_traitement'] 
             sg.save()
             messages.add_message(request, messages.SUCCESS, (f"Informations du courrier enregistrées avec succès."))
             # return redirect('senat:bureau_sg')

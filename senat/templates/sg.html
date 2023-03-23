@@ -316,7 +316,7 @@ a[data-toggle="collapse"] {
                 <div class="row">
                     <div class="col-md-7">
                         {% include '_partials/messages.html' %}
-                        {% comment %} {% if courrier %}  {% endcomment %}
+                        {% if courrier %}
                             {% for courriers in courrier %}
                                 <div class="form-group">
                                     {% comment %} <label for="recepteur">Recepteur</label> {% endcomment %}
@@ -368,21 +368,25 @@ a[data-toggle="collapse"] {
                                         {% comment %} {{ form|crispy }} {% endcomment %}
                                         <label for="sercice">Service de traitement</label>
                                         <select name="service_traitement" class="form-control">
-                                            <option>Direction de la coordination des services ratachés et des relations internationales</option>
-                                            <option>Direction de l agence comptable du service de la comptabilité matière et du bureau de liaison à l etrnager</option>
-                                            <option>Direction de la legislation, du contrôle parlementaire et des services linguistique</option>
-                                            <option>Direction du budget et de la solde(DBS)</option>
-                                            <option>Direction des relations(DRH)</option>
-                                            <option>Direction des actions sociales et médicales(DASM)</option>
-                                            <option>Direction des servides techniques commun(DSTC)</option>
-                                            <option>Direction de la documentation, des archives et de la recherche parlementaire(DDARP)</option>
-                                            <option>Inspecteurs généraux(IG)</option>
-                                            <option>Direction des relations(DRH)</option>
-                                            <option>Sécrétaire particulier(SP)</option>
+                                            <option>Cabinet du président su Sénat(CABPSEN)</option>
+                                            <option>Sécrétaire Général(SG)</option>
+                                            <option>Sécrétaire Général Adjoint 1(SGA1)</option>
+                                            <option>Sécrétaire Général Adjoint 2(SGA2)</option>
                                             <option>Conseillé technique(CT)</option>
                                             <option>Chargé de mission(CM)</option>
-                                            <option>Chargé d études(CE)</option>
-                                            <option>Chargé d études assistante(CE)</option>
+                                            <option>Direction des missions internationales(DMI)</option>
+                                            <option>Direction des servides techniques commun(DSTC)</option>
+                                            <option>Direction du budget de la solde(DBS)</option>
+                                            <option>Direction agence comptable(AC)</option>
+                                            <option>Direction des actions sociales et médicales(DASM)</option>
+                                            <option>Direction de la traduction de l'interpretation(DTI)</option>
+                                            <option>Direction de la coordination des services ratachés et des relations internationales</option>
+                                            <option>Direction de la collectivité territorial décentralisées(DCTD)</option>
+                                            <option>Direction des ressources humaines(DRH)</option>
+                                            <option>Sercice du doyen</option>
+                                            <option>Sercice de la scolarité</option>
+                                            <option>Chef de département</option>
+                                            <option>Sercice des questeurs</option>
                                         </select>
                                         <label for="mention">Mention</label>
                                         <select name="mention" class="form-control">
@@ -400,8 +404,8 @@ a[data-toggle="collapse"] {
             
                             {% endfor %}
                         {% comment %} {% else %}
-                            <p> Courrier introuvable... </p>
-                        {% endif %} {% endcomment %}
+                            <p> Courrier introuvable... </p> {% endcomment %}
+                        {% endif %} 
                         <br><br>
                     </div>
                     {% comment %} </div> {% endcomment %}
