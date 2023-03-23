@@ -272,27 +272,25 @@ def list_courrier(request):
     # courriers = Courrier.objects.filter(is_active=True).order_by('-created_on')
 
     #pagination
-    page = request.GET.get('page')
-    num_of_items = 3
-    paginator = Paginator(courriers, num_of_items)
+    # page = request.GET.get('page')
+    # num_of_items = 3
+    # paginator = Paginator(courriers, num_of_items)
 
-    try:
-        courriers = paginator.page(page)
-    except PageNotAnInteger:
-        page = 1
-        courriers = paginator.page(page)
-    except EmptyPage:
-        page = paginator.num_pages
-        courriers = paginator.page(page)
+    # try:
+    #     courrierss = paginator.page(page)
+    # except PageNotAnInteger:
+    #     page = 1
+    #     courrierss = paginator.page(page)
+    # except EmptyPage:
+    #     page = paginator.num_pages
+    #     courrierss = paginator.page(page)
 
     #barre de filtre
-    # gg = courriers.order_set.all()
-    myFilter = CourrierFilter()
-    # courriers = myFilter.qs
+    courriers_filter = CourrierFilter(request.GET, queryset=courriers)
 
     return render(request, 'liste_courrier.html', {'courriers': courriers, 
                                                    'count_courrier': count_courrier, 
-                                                   'paginator': paginator,
-                                                   'myFilter': myFilter
+                                                #    'paginator': paginator,
+                                                   'courriers_filter':courriers_filter,
                                                    })
 
