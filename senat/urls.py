@@ -24,4 +24,27 @@ urlpatterns = [
     # path("search/", SearchResultsList.as_view(), name="search"),
     # path("search/", SearchResultsView.as_view(), name="search_results"),
     # path('sg_record/', sg_record, name='sg_record'),
+    path('envoi_email/', views.envoi_email, name='envoi_email'),
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # path('inde/', views.inde, name='inde'),
+    # path('capture/', views.capture, name='capture'),
+    # path('save/', views.save_picture, name='save_picture'),
+
+    # path('webcam/', views.webcam, name='webcam')
+    # path('webcam/', views.webcam_capture, name='webcam'),
+    path('inde/', views.webcam, name='webcam'),
+    path('save_image/', views.save_image, name='save_image'),
+    path('list/', views.webcam_list, name='webcam_list'),
 ]
