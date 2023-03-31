@@ -38,13 +38,9 @@ urlpatterns = [
 
 
 
-    # path('inde/', views.inde, name='inde'),
-    # path('capture/', views.capture, name='capture'),
-    # path('save/', views.save_picture, name='save_picture'),
-
-    # path('webcam/', views.webcam, name='webcam')
-    # path('webcam/', views.webcam_capture, name='webcam'),
-    path('inde/', views.webcam, name='webcam'),
-    path('save_image/', views.save_image, name='save_image'),
-    path('list/', views.webcam_list, name='webcam_list'),
+    path('inde/', views.indexs, name='indexs'),
+    path('capture/', views.capture, name='capture'),
+    path('captures/', views.captures, name='captures'),
+    path('capture/<int:capture_id>/download/', views.download_capture, name='download_capture'),
+    path('capture_pdf/<int:capture_id>/download/', views.download_capture_pdf, name='download_capture_pdf'),
 ]

@@ -112,17 +112,10 @@ class Courrier(models.Model):
 
 
 
-# class Picture(models.Model):
-#     name = models.CharField(max_length=255)
-#     image = models.ImageField(upload_to='pictures')
+class Capture(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='captures/')
+    created_at = models.DateTimeField(auto_now_add=True)
 
-#     def __str__(self):
-#         return self.name
-
-# class WebcamImage(models.Model):
-#     image = models.ImageField(upload_to='webcam_images/', blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-class WebcamImage(models.Model):
-    image = models.ImageField(upload_to='webcam/')
-    timestamp = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name

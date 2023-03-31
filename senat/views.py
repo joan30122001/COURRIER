@@ -32,7 +32,7 @@ from django.forms import modelform_factory
 # from .models import Picture
 
 from django.core.files.storage import FileSystemStorage
-from .models import WebcamImage
+# from .models import WebcamImage
 from django.core.files.base import ContentFile
 from django.utils import timezone
 import re
@@ -427,26 +427,89 @@ import io
 import numpy as np
 import cv2
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import WebcamImage
+from django.http import JsonResponse, HttpResponse
+from .models import Capture
+from io import BytesIO
+from django.utils.encoding import smart_str
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
-def webcam(request):
-    return render(request, 'webcam.html')
 
-def save_image(request):
+def indexs(request):
+    return render(request, 'indexs.html')
+
+# def capture(request):
+    # if request.method == 'POST':
+    #     name = request.POST['name']
+    #     image_data = request.POST['image']
+    #     image_data = image_data.replace('data:image/png;base64,', '')
+    #     image_data = base64.b64decode(image_data)
+    #     capture = Capture(name=name)
+    #     capture.image.save(name + '.png', image_data)
+    #     capture.save()
+def capture(request):
+    # if request.method == 'POST':
+    #     name = request.POST['name']
+    #     image_data = request.POST['image']
+    #     image_data = image_data.replace('data:image/png;base64,', '')
+    #     image_data = base64.b64decode(image_data)
+    #     image_file = BytesIO(image_data)
+    #     image = Image.open(image_file)
+    #     capture = Capture(name=name)
+    #     capture.image.save(name + '.png', image)
+    #     capture.save()
+    #     return redirect('senat:captures')
+    # return render(request, 'capture.html')
     if request.method == 'POST':
-        imgstr = request.POST.get('image')
-        if imgstr:
-            # Convert base64 string to numpy array
-            nparr = np.fromstring(base64.b64decode(imgstr), np.uint8)
-            # Decode numpy array to image
-            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            # Save image to database
-            image = WebcamImage(image=io.BytesIO(cv2.imencode('.jpg', img)[1]).getvalue())
-            image.save()
-            return JsonResponse({'success': True})
-        return JsonResponse({'success': False})
+        name = request.POST.get('name')
+        image_data = request.POST.get('image')
+        image_data = image_data.replace('data:image/png;base64,', '')
+        image_data = base64.b64decode(image_data)
+        capture = Capture(name=name)
+        image_file = BytesIO(image_data)
+        capture.image.save(name + '.png', image_file)
+        capture.save()
+        return redirect('senat:captures')
+    return render(request, 'capture.html')
+# def capture(request):
+#     if request.method == 'POST':
+#         name = request.POST['name']
+#         image_data = request.POST['image']
+#         image_data = image_data.replace('data:image/png;base64,', '')
+#         image_data = base64.b64decode(image_data)
+#         capture = Capture(name=name)
+#         capture.image.save(name + '.png', image_data)
+#         capture.save()
+#         return redirect('senat:captures')
+#     return render(request, 'capture.html')
 
-def webcam_list(request):
-    images = WebcamImage.objects.all().order_by('-timestamp')
-    return render(request, 'webcam_list.html', {'images': images})
+def captures(request):
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
+    captures = Capture.objects.all()
+    return render(request, 'captures.html', {'captures': captures, 'count_courrier':count_courrier})
+
+
+
+def download_capture(request, capture_id):
+    capture = get_object_or_404(Capture, id=capture_id)
+    response = HttpResponse(capture.image, content_type='image/png')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(smart_str(capture.name + '.png'))
+    return response
+
+def download_capture_pdf(request, capture_id):
+    capture = get_object_or_404(Capture, id=capture_id)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(smart_str(capture.name + '.pdf'))
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    img = ImageReader(capture.image.path)
+    pdf.drawImage(img, 0, 0, width=letter[0], height=letter[1])
+    pdf.showPage()
+    pdf.save()
+    pdf_data = buffer.getvalue()
+    buffer.close()
+    response.write(pdf_data)
+    return response

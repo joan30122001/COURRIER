@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Courrier, WebcamImage
+from .models import Courrier, Capture
 
 
 
 admin.site.register(Courrier)
-admin.site.register(WebcamImage)
+admin.site.register(Capture)
