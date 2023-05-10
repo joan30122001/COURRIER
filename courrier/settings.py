@@ -147,9 +147,16 @@ IMPORT_EXPORT_EXPORT_PERMISSION_CODE = 'delete'
 
 
 # EMAIL CONFIGURATION (for contact form)
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'cybex.mail23@gmail.com'
+# EMAIL_HOST_PASSWORD = 'cccpyzxqurbjelxx'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'cybex.mail23@gmail.com'
-EMAIL_HOST_PASSWORD = 'cccpyzxqurbjelxx'
+EMAIL_HOST_USER = 'digital.studios587@gmail.com'
+EMAIL_HOST_PASSWORD = 'owrwoodimalhcgmk'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

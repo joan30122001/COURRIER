@@ -377,7 +377,7 @@ a[data-toggle="collapse"] {
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'senat:capture' %}">
+                    <a href="{% url 'senat:scan' %}">
                         <i class="fas fa-cog mr-2"></i>
                         Scanner un Courrier
                     </a>
@@ -445,7 +445,7 @@ a[data-toggle="collapse"] {
                                 <tbody>
                                     <tr>
                                         <td class="text-success" style="font-weight: bold">{{ capture.name }}</td>
-                                        <td><img src="{{ capture.image.url }}" width="100"></td>
+                                        <td><img src="{{ capture.file.url }}" width="50px; height: 50px"></td>
                                         {%language 'fr' %}
                                             <td class="text-info" style="font-weight: bold">{{capture.created_at}}</td>
                                         {% endlanguage %}
