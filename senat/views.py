@@ -217,6 +217,45 @@ def search(request):
 
 
 
+def bureau_univ(request):
+    type_elt = request.GET.get('types')
+    code = request.GET.get('code')
+    courrier = Courrier.objects.filter(
+        code=code, types=type_elt
+    )
+    sg = get_object_or_404(Courrier, code=code, types=type_elt)
+    form = MentionForm(instance=sg)
+
+    if request.method == 'POST':
+        form = MentionForm(request.POST or None, instance=sg)
+        if form.is_valid():
+            sg.service_traitement = form.cleaned_data['service_traitement']
+            sg.mention = form.cleaned_data['mention']                
+            
+            sg.save()
+            messages.add_message(request, messages.SUCCESS, (f"Informations du courrier enregistrées avec succès."))
+
+    return render(request,'univ.html', {"courrier": courrier, "form": form})
+
+
+def search_univ(request):
+
+    if request.method == 'POST':
+        query = request.POST.get('code')
+        querys = request.POST.get('types')
+        
+
+        objects = Courrier.objects.filter(code=query, types=querys)
+        if not objects: 
+            messages.error(request, "Le code ou le type fourni n'existe pas")
+            return redirect('senat:search_univ')
+        response = redirect('/bureau_univ/' + f'?code={query}&types={querys}')
+        return response
+    else:
+        return render(request, 'search_univ.html')
+
+
+
 def courrier_attente(request):
     courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
     # if request.method == 'POST':
@@ -423,6 +462,10 @@ def captures(request):
 
 
 def scan(request):
+
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
     form = ScanForm(request.POST, request.FILES)
     scan = Scan()
 
@@ -439,6 +482,7 @@ def scan(request):
             return render(request, 'scan.html', {'form': form})
     context = {
         'form': form,
+        'count_courrier': count_courrier,
     }
     return render(request,'scan.html', context)
 
