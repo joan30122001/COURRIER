@@ -18,7 +18,7 @@ urlpatterns = [
     path('search_univ/', views.search_univ, name='search_univ'),
     path('courrier_attente/', views.courrier_attente, name='courrier_attente'),
 
-    path('person/<int:pk>/deactivate/', views.deactivate_person, name='deactivate_person'),
+    
 
     path('<int:id>', views.courrier_attente_detail, name='courrier_attente_detail'),
     path('search_chef/', views.search_chef, name='search_chef'),
@@ -36,7 +36,7 @@ urlpatterns = [
 
 
 
-
+    path('<int:id>', views.deactivate_record, name='deactivate_record'),
 
 
 

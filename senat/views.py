@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -197,7 +198,7 @@ def search(request):
         #     messages.error(request, 'Vous devez renseigner ls champs.')
         # return redirect('senat:search')
 
-        objects = Courrier.objects.filter(code=query, types=querys)
+        objects = Courrier.objects.filter(code=query, types=querys, structure="SENAT")
         if not objects: 
             messages.error(request, "Le code ou le type fourni n'existe pas")
             return redirect('senat:search')
@@ -245,7 +246,7 @@ def search_univ(request):
         querys = request.POST.get('types')
         
 
-        objects = Courrier.objects.filter(code=query, types=querys)
+        objects = Courrier.objects.filter(code=query, types=querys, structure="UNIVERSITE DE YAOUNDE 1")
         if not objects: 
             messages.error(request, "Le code ou le type fourni n'existe pas")
             return redirect('senat:search_univ')
@@ -265,11 +266,13 @@ def courrier_attente(request):
 
 
 
-def deactivate_person(request, pk):
-    person = get_object_or_404(Courrier, pk=pk)
-    person.is_active = False
-    person.save()
-    return JsonResponse({'message': 'Person deactivated successfully.'})
+def deactivate_record(request, id):
+    record = get_object_or_404(Courrier, pk=id)
+    if request.method == 'POST':
+        record.is_active = False
+        record.save()
+        return HttpResponseRedirect('/')
+    return render(request, 'chef_service.html', {"record": record})
 
 
 
