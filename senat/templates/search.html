@@ -156,16 +156,24 @@
                             <input type="text" class="search-input" placeholder="Code..." name="code" >
                             <button type="submit" id="searchField" class="search-icon"><i class="fa fa-search"></i></button>
                         </div>
-                        <select name="types" class="form-control">
-                            <option>LETTRE(L)</option>
-                            <option>REQUETE(R)</option>
-                            <option>LOI(LN)</option>
-                            <option>DECISION(D)</option>
-                            <option>NOTE(N)</option>
-                            <option>PROJET DE LOI(PJL)</option>
-                            <option>PROPOSITION DE LOI(PL)</option>
-                            <option>ARRETE DE BUREAU(AB)</option>
-                        </select>
+                        {% if user.is_Universite %}
+                            <select name="types" class="form-control">
+                                <option>LETTRE(L)</option>
+                                <option>REQUETE(R)</option>
+                                <option>NOTE(N)</option>
+                            </select>
+                        {% else %}
+                            <select name="types" class="form-control">
+                                <option>LETTRE(L)</option>
+                                <option>REQUETE(R)</option>
+                                <option>LOI(LN)</option>
+                                <option>DECISION(D)</option>
+                                <option>NOTE(N)</option>
+                                <option>PROJET DE LOI(PJL)</option>
+                                <option>PROPOSITION DE LOI(PL)</option>
+                                <option>ARRETE DE BUREAU(AB)</option>
+                            </select>
+                        {% endif %}
                     </form>
                 </div>
 
