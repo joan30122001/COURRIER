@@ -262,7 +262,11 @@ def courrier_attente(request):
     # if request.method == 'POST':
     #     request.is_active = False
     #     request.save()
-    return render(request, 'courrier_attente.html', {"courrier": courrier})
+    #compter le nombre de courrier
+    courrier = Courrier.objects.filter(mention="ETUDE ET COMPTE RENDU", is_active=True)
+    count_courrier = courrier.count()
+
+    return render(request, 'courrier_attente.html', {"courrier": courrier, "count_courrier": count_courrier})
 
 
 
